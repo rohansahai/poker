@@ -9,7 +9,7 @@ class Card
   }
 
   def self.suits
-
+    SUITS.keys
   end
 
 end
