@@ -1,4 +1,3 @@
-
 class Card
   SUIT_STRINGS = {
       :club    => "club",
@@ -33,9 +32,10 @@ class Card
       :eight => 8,
       :nine  => 9,
       :ten   => 10,
-      :jack  => 10,
-      :queen => 10,
-      :king  => 10
+      :jack  => 11,
+      :queen => 12,
+      :king  => 13,
+      :ace   => 14
     }
 
   attr_reader :suit, :value
@@ -51,5 +51,9 @@ class Card
 
   def self.values
     VALUE_STRINGS.keys
+  end
+
+  def poker_value
+    POKER_VALUE[self.value]
   end
 end

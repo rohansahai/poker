@@ -17,16 +17,57 @@ class Hand
     self.cards += deck.draw(indices.size)
   end
 
-  def royal_flush?
-    suits = self.cards.map(&:suit)
-    values = self.cards.map(&:value)
+  # def calculate_points
+#     case
+#     when royal_flush?
+#     when two_pair?
+#   end
 
-    suits.uniq == suits && [:ten, :jack, :queen, :king, :ace].sort == values.sort
+  def royal_flush?
+    values = self.cards.map(&:value)
+    flush? && [:ten, :jack, :queen, :king, :ace].sort == values.sort
   end
 
   def straight?
-    values = self.cards.map(&:value).sort
+    values = self.cards.sort_by { |card| card.poker_value }.map(&:value)
     Card.values.join.include?(values.join)
+  end
+
+  def flush?
+    suits = self.cards.map(&:suit)
+    suits.uniq.size == 1
+  end
+
+  def straight_flush?
+    straight? && flush?
+  end
+
+  def three_of_a_kind?
+    values = self.cards.map(&:value)
+    values.any? { |value| values.count(value) == 3 }
+  end
+
+  def pair?
+    values = self.cards.map(&:value)
+    values.any? { |value| values.count(value) == 2 }
+  end
+
+  def full_house?
+    values = self.cards.map(&:value)
+    threes, values = values.partition { |i| values.count(i) == 3 }
+    !(threes.empty? || values.uniq.size > 1)
+  end
+
+  def four_of_a_kind?
+    values = self.cards.map(&:value)
+    values.any? { |value| values.count(value) == 4 }
+  end
+
+  def two_pair?
+    card_hash = Hash.new(0)
+    values = self.cards.map(&:value)
+    values.each { |value| card_hash[value] += 1 }
+    card_hash.values.count(2) == 2
   end
 
   # def calculate_hand

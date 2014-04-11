@@ -12,6 +12,7 @@ describe Hand do
     Card.new(:club, :eight),
     Card.new(:spade, :four)
   ]) }
+  let(:bad_hand)   { Hand.new(bad_deck)}
 
   describe "#initialize" do
     it "should have five cards" do
@@ -38,45 +39,188 @@ describe Hand do
     end
   end
 
-  describe "#calculate_hand" do
-    let(:bad_hand)   { Hand.new(bad_deck)}
+  describe "#royal_flush?" do
+    let(:royal_cards) { Deck.new([
+      Card.new(:spade, :ten),
+      Card.new(:spade, :jack),
+      Card.new(:spade, :queen),
+      Card.new(:spade, :king),
+      Card.new(:spade, :ace)
+    ]) }
+    let(:royal_hand) { Hand.new(royal_cards) }
 
-    describe "#royal_flush?" do
-      let(:royal_cards) { Deck.new([
-        Card.new(:spade, :ten),
-        Card.new(:spade, :jack),
-        Card.new(:spade, :queen),
-        Card.new(:spade, :king),
-        Card.new(:spade, :ace)
-      ]) }
-
-      let(:royal_hand) { Hand.new(royal_cards) }
-
-      it "should return true if royal flush" do
-        expect(royal_hand).to be_royal_flush
-      end
-
-      it "should not return true if the hand sucks" do
-        expect(bad_hand).to_not be_royal_flush
-      end
+    it "should return true if royal flush" do
+      expect(royal_hand).to be_royal_flush
     end
 
-    describe "#straight?" do
-      let(:straight_deck) {Deck.new([
-        Card.new(:spade, :ten),
-        Card.new(:heart, :jack),
-        Card.new(:spade, :queen),
-        Card.new(:club, :king),
-        Card.new(:spade, :nine)
-      ])}
-
-      let(:straight_hand) { Hand.new(straight_deck)}
-
-      it "should return true if hand contains straight" do
-        expect(straight_hand).to be_straight
-      end
-
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_royal_flush
     end
+  end
+
+  describe "#straight?" do
+    let(:straight_deck) { Deck.new([
+      Card.new(:spade, :ten),
+      Card.new(:heart, :jack),
+      Card.new(:spade, :queen),
+      Card.new(:club, :king),
+      Card.new(:spade, :nine)
+    ]) }
+
+    let(:straight_hand) { Hand.new(straight_deck) }
+
+    it "should return true if hand contains straight" do
+      expect(straight_hand).to be_straight
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_straight
+    end
+
+  end
+
+  describe "#flush?" do
+    let(:flush_deck) { Deck.new([
+      Card.new(:spade, :ace),
+      Card.new(:spade, :jack),
+      Card.new(:spade, :seven),
+      Card.new(:spade, :deuce),
+      Card.new(:spade, :nine)
+    ]) }
+
+    let(:flush_hand) { Hand.new(flush_deck) }
+
+    it "should return true if hand contains flush" do
+      expect(flush_hand).to be_flush
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_flush
+    end
+  end
+
+  describe "#straight_flush?" do
+    let(:straight_flush_deck) { Deck.new([
+      Card.new(:spade, :deuce),
+      Card.new(:spade, :three),
+      Card.new(:spade, :four),
+      Card.new(:spade, :five),
+      Card.new(:spade, :six)
+    ]) }
+
+    let(:straight_flush_hand) { Hand.new(straight_flush_deck) }
+
+    it "should return true if hand contains straight flush" do
+      expect(straight_flush_hand).to be_straight_flush
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_straight_flush
+    end
+  end
+
+  describe "#three_of_a_kind?" do
+    let(:three_deck) { Deck.new([
+      Card.new(:heart, :four),
+      Card.new(:club, :three),
+      Card.new(:diamond, :four),
+      Card.new(:spade, :four),
+      Card.new(:spade, :six)
+    ]) }
+
+    let(:three_hand) { Hand.new(three_deck) }
+
+    it "should return true if hand contains three of a kind" do
+      expect(three_hand).to be_three_of_a_kind
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_three_of_a_kind
+    end
+  end
+
+  describe "#four_of_a_kind?" do
+    let(:four_deck) { Deck.new([
+      Card.new(:heart, :four),
+      Card.new(:club, :four),
+      Card.new(:diamond, :four),
+      Card.new(:spade, :four),
+      Card.new(:spade, :six)
+    ]) }
+
+    let(:four_hand) { Hand.new(four_deck) }
+
+    it "should return true if hand contains four of a kind" do
+      expect(four_hand).to be_four_of_a_kind
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_four_of_a_kind
+    end
+  end
+
+  describe "#pair?" do
+    let(:pair_deck) { Deck.new([
+      Card.new(:heart, :four),
+      Card.new(:club, :three),
+      Card.new(:diamond, :jack),
+      Card.new(:spade, :four),
+      Card.new(:spade, :six)
+    ]) }
+
+    let(:pair_hand) { Hand.new(pair_deck) }
+
+    it "should return true if hand contains pair" do
+      expect(pair_hand).to be_pair
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_pair
+    end
+  end
+
+  describe "#two_pair?" do
+    let(:two_pair_deck) { Deck.new([
+      Card.new(:heart, :four),
+      Card.new(:club, :three),
+      Card.new(:diamond, :six),
+      Card.new(:spade, :four),
+      Card.new(:spade, :six)
+    ]) }
+
+    let(:two_pair_hand) { Hand.new(two_pair_deck) }
+
+    it "should return true if hand contains two_pair" do
+      expect(two_pair_hand).to be_two_pair
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_two_pair
+    end
+  end
+
+  describe "#full_house?" do
+    let(:full_house_deck) { Deck.new([
+      Card.new(:heart, :six),
+      Card.new(:club, :six),
+      Card.new(:diamond, :jack),
+      Card.new(:spade, :jack),
+      Card.new(:spade, :six)
+    ]) }
+
+    let(:full_house_hand) { Hand.new(full_house_deck) }
+
+    it "should return true if hand contains full_house" do
+      expect(full_house_hand).to be_full_house
+    end
+
+    it "should not return true if the hand sucks" do
+      expect(bad_hand).to_not be_full_house
+    end
+  end
+
+  describe "#calculate_points" do
+
   end
 
 end
