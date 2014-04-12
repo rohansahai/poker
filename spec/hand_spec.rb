@@ -211,7 +211,70 @@ describe Hand do
     end
   end
 
-  describe "#calculate_points" do
+  describe "#beats?" do
+    let(:royal_cards2) { Deck.new([
+      Card.new(:club, :ten),
+      Card.new(:club, :jack),
+      Card.new(:club, :queen),
+      Card.new(:club, :king),
+      Card.new(:club, :ace)
+    ]) }
+    let(:royal_hand2) { Hand.new(royal_cards2) }
+
+    let(:straight_deck2) { Deck.new([
+      Card.new(:spade, :ten),
+      Card.new(:heart, :jack),
+      Card.new(:spade, :queen),
+      Card.new(:club, :nine),
+      Card.new(:spade, :eight)
+    ]) }
+    let(:straight_hand2) { Hand.new(straight_deck2) }
+
+    let(:three_deck2) { Deck.new([
+      Card.new(:heart, :three),
+      Card.new(:club, :three),
+      Card.new(:diamond, :ten),
+      Card.new(:spade, :three),
+      Card.new(:spade, :six)
+    ]) }
+    let(:three_hand2) { Hand.new(three_deck2) }
+
+    let(:two_pair_deck2) { Deck.new([
+      Card.new(:heart, :four),
+      Card.new(:club, :three),
+      Card.new(:diamond, :five),
+      Card.new(:spade, :four),
+      Card.new(:spade, :five)
+    ]) }
+    let(:two_pair_hand2) { Hand.new(two_pair_deck2) }
+
+    it "should favor the stronger royal flush" do
+      expect(royal_hand.beats?(royal_hand2)).to be true
+    end
+
+    it "should favor the stronger straight deck" do
+      expect(straight_hand.beats?(straight_hand2)).to be true
+    end
+
+    it "should favor the stronger three of a kind" do
+      expect(three_hand.beats?(three_hand2)).to be true
+    end
+
+    it "should favor the stronger two pair" do
+      expect(two_pair_hand.beats?(two_pair_hand2)).to be true
+    end
+
+    it "should favor full house" do
+      expect(full_house_hand.beats?(two_pair_hand)).to be true
+    end
+
+    it "should favor royal flush" do
+      expect(royal_hand.beats?(straight_flush_hand)).to be true
+    end
+
+    it "should favor four of a kind" do
+      expect(four_hand.beats?(flush_hand)).to be true
+    end
 
   end
 

@@ -38,6 +38,13 @@ class Card
       :ace   => 14
     }
 
+    SUIT_VALUES = {
+      :spade => 4,
+      :heart => 3,
+      :diamond => 2,
+      :club => 1
+    }
+
   attr_reader :suit, :value
 
   def initialize(suit, value)
@@ -55,5 +62,9 @@ class Card
 
   def poker_value
     POKER_VALUE[self.value]
+  end
+
+  def suit_value
+    SUIT_VALUES[self.suit]
   end
 end
