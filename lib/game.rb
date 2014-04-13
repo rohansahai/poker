@@ -47,24 +47,28 @@ class Game
   def betting_round(old_bet_amt = 0)
     thrown_in = self[@current_player].thrown_in
     betting_round_greeting(old_bet_amt, thrown_in)
-    puts "\n#{self[@current_player].name}, Would you like to call(c), raise(r), or fold(f)?"
+    begin
+      puts "\n#{self[@current_player].name}, Would you like to call(c), raise(r), or fold(f)?"
     
-    case gets.chomp
-    when "c"
-      self.players[current_player].place_bet(@current_bet + old_bet_amt - thrown_in)
-      @pot += @current_bet + old_bet_amt - thrown_in
-      @current_player += 1
-    when "r"
-      raise_bet
-    when "f"
-      self.players.delete_at(@current_player)
-    end
+      case gets.chomp
+      when "c"
+        self.players[current_player].place_bet(@current_bet + old_bet_amt - thrown_in)
+        @pot += @current_bet + old_bet_amt - thrown_in
+        @current_player += 1
+      when "r"
+        raise_bet
+      when "f"
+        self.players.delete_at(@current_player)
+      end
     
-    if @current_player == self.players.length
-      @current_player = 0 
-      self.cycle += 1
-    end
-    
+      if @current_player == self.players.length
+        @current_player = 0 
+        self.cycle += 1
+      end
+    rescue RuntimeError
+      puts "Invalid action, please try again."
+      retry
+    end    
   end
   
   def betting_round_greeting(old_bet_amt, thrown_in)
