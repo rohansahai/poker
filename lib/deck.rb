@@ -1,4 +1,4 @@
-require 'card'
+require './lib/card.rb'
 
 class Deck
   def self.all_cards

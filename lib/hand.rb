@@ -1,4 +1,4 @@
-require 'deck'
+require './lib/deck.rb'
 
 class Hand
   attr_reader :cards, :deck
@@ -13,7 +13,7 @@ class Hand
 
   def discard_and_draw(indices)
     raise "Cannot discard more than three cards." if indices.size > 3
-    indices.each { |idx| self.cards.delete_at(idx) }
+    indices.reverse.each { |idx| self.cards.delete_at(idx) }
     self.cards += deck.draw(indices.size)
   end
 

@@ -48,4 +48,10 @@ describe Player do
     end
   end
 
+  describe "#call_bet" do
+    it "should reduce bankroll by current bet amount" do
+      #player.call_bet
+    end
+  end
+
 end

@@ -1,8 +1,10 @@
 class Player
-  attr_reader :name, :bankroll, :cards
+  attr_reader :name, :bankroll, :cards, :hand, :thrown_in
 
-  def initialize(name, bankroll)
+  def initialize(name, bankroll, deck = Deck.new)
     @name, @bankroll = name, bankroll
+    @hand = Hand.new(deck)
+    @thrown_in = 0
   end
 
   def draw_cards(cards)
@@ -13,8 +15,11 @@ class Player
     raise "You ain't got enough money." if self.bankroll < amount
 
     self.bankroll -= amount
-
-    amount
+    @thrown_in += amount
+  end
+  
+  def add_to_bankroll(amount)
+    self.bankroll += amount
   end
 
   def fold
@@ -24,5 +29,5 @@ class Player
 
   protected
 
-  attr_writer :cards, :bankroll
+  attr_writer :cards, :bankroll, :thrown_in
 end
