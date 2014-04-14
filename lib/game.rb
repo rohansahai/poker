@@ -3,7 +3,7 @@ require './lib/hand.rb'
 
 class Game
   attr_reader :deck
-  attr_accessor :players, :current_bet, :current_player, :cycle
+  attr_accessor :players, :current_bet, :current_player, :cycle, :pot
   
   SUIT_UNI = {:heart => "\u2665", :spade => "\u2660", :diamond => "\u2666", :club => "\u2663"}
   
@@ -22,6 +22,7 @@ class Game
       get_players
       betting_round until betting_round_over? || self.players.length == 1
       raise GameOver if self.players.length == 1
+      
       
       self.current_player = 0
       self.players.length.times {|_| swapping_round}
